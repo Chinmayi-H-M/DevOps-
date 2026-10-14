@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExamSetu | Government Exam Portal</title>
+  <meta name="description" content="Find government exam notifications, eligibility, deadlines and official application links across India.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a class="logo" href="#">Exam<span>Setu</span></a>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#exams">Exams</a>
+      <a href="#categories">Categories</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <p class="eyebrow">YOUR CAREER STARTS HERE</p>
+      <h1>One Platform. <span>Every Opportunity.</span></h1>
+      <p class="hero-text">
+        Discover government exams across India, track deadlines
+        and find official application notifications in one place.
+      </p>
+
+      <div class="search-box">
+        <input id="searchInput" type="search"
+          placeholder="Search UPSC, SSC, Banking, Railways..."
+          aria-label="Search government exams">
+        <button id="searchBtn">Search</button>
+      </div>
+
+      <p class="note">Search exams by name, department, state or qualification.</p>
+    </section>
+
+    <section class="categories" id="categories">
+      <h2>Explore Exam Categories</h2>
+      <div class="category-grid">
+        <button class="category active" data-category="All">All Exams</button>
+        <button class="category" data-category="UPSC">UPSC</button>
+        <button class="category" data-category="SSC">SSC</button>
+        <button class="category" data-category="Banking">Banking</button>
+        <button class="category" data-category="Railways">Railways</button>
+        <button class="category" data-category="Defence">Defence</button>
+        <button class="category" data-category="State PSC">State PSC</button>
+        <button class="category" data-category="Teaching">Teaching</button>
+      </div>
+    </section>
+
+    <section class="exams-section" id="exams">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">STAY UPDATED</p>
+          <h2>Government Exam Updates</h2>
+        </div>
+        <span id="resultCount"></span>
+      </div>
+
+      <div class="filters">
+        <select id="qualificationFilter" aria-label="Filter by qualification">
+          <option value="All">All Qualifications</option>
+          <option value="12th Pass">12th Pass</option>
+          <option value="Graduate">Graduate</option>
+          <option value="10th Pass">10th Pass</option>
+        </select>
+
+        <select id="stateFilter" aria-label="Filter by state">
+          <option value="All">All India / All States</option>
+          <option value="Karnataka">Karnataka</option>
+          <option value="Central">Central Government</option>
+          <option value="Tamil Nadu">Tamil Nadu</option>
+        </select>
+
+        <button id="resetBtn" class="reset-btn">Reset Filters</button>
+      </div>
+
+      <div id="examList" class="exam-grid"></div>
+    </section>
+
+    <section class="disclaimer" id="about">
+      <h2>Important Information</h2>
+      <p>
+        Always verify eligibility, dates, fees and vacancies through
+        the official recruiting authority before applying.
+      </p>
+      <p>
+        Demo records on this website are illustrative and are not
+        verified live vacancies or current recruitment announcements.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <a class="logo" href="#">Exam<span>Setu</span></a>
+    <p>Helping aspirants find the right opportunity.</p>
+    <p>© 2026 ExamSetu. An independent information portal.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
