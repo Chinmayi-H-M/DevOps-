@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -151,9 +152,7 @@ pipeline {
                         | grep -q "$APP_NAME"; then
 
                         echo "Connecting website to the network..."
-
-                        docker network connect \
-                            "$NETWORK_NAME" "$APP_NAME"
+                        docker network connect "$NETWORK_NAME" "$APP_NAME"
                     fi
 
                     if ! docker network inspect "$NETWORK_NAME" \
@@ -161,9 +160,7 @@ pipeline {
                         | grep -q "$JENKINS_CONTAINER"; then
 
                         echo "Connecting Jenkins to the network..."
-
-                        docker network connect \
-                            "$NETWORK_NAME" "$JENKINS_CONTAINER"
+                        docker network connect "$NETWORK_NAME" "$JENKINS_CONTAINER"
                     fi
 
                     echo "Network connectivity configured."
@@ -207,10 +204,9 @@ pipeline {
                     echo "Checking website page title..."
 
                     if grep -qi "DevOps Dashboard" /tmp/mevi-site.html; then
-                        echo "SUCCESS: Expected website title found."
+                        echo "SUCCESS: Expected website content found."
                     else
-                        echo "ERROR: Expected title was not found."
-                        echo "Actual title:"
+                        echo "ERROR: Expected website content was not found."
                         grep -i "<title>" /tmp/mevi-site.html || true
                         exit 1
                     fi
@@ -220,21 +216,25 @@ pipeline {
 
         stage('Verify Published Port') {
             steps {
-                echo 'Verifying the website inside its container'
+                echo 'Verifying the published port and website content'
 
                 sh '''
                     set -eu
 
+                    echo "Checking published ports..."
                     docker port "$APP_NAME"
+
+                    echo "Checking website content inside the container..."
 
                     docker exec "$APP_NAME" \
                         wget -q -O - http://127.0.0.1/ \
                         > /tmp/mevi-container-page.html
 
-                    if grep -qi "Wisdom of Indian Saints" /tmp/mevi-container-page.html; then
-                        echo "SUCCESS: Website responds inside the container."
+                    if grep -qi "DevOps Dashboard" /tmp/mevi-container-page.html; then
+                        echo "SUCCESS: Website content verified."
                     else
-                        echo "ERROR: Container content verification failed."
+                        echo "ERROR: Expected website content not found."
+                        grep -i "<title>" /tmp/mevi-container-page.html || true
                         exit 1
                     fi
 
@@ -248,6 +248,8 @@ pipeline {
                 echo 'Displaying final deployment details'
 
                 sh '''
+                    set -eu
+
                     echo "========================================"
                     echo "DEPLOYMENT SUMMARY"
                     echo "========================================"
