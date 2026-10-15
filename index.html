@@ -1,106 +1,205 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ExamSetu | Government Exam Portal</title>
-  <meta name="description" content="Find government exam notifications, eligibility, deadlines and official application links across India.">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My To-Do List</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        p {
+            text-align: center;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            min-width: 0;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #5145cd;
+        }
+
+        ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f5f5ff;
+            border-radius: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        li span {
+            flex: 1;
+        }
+
+        li.completed span {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        li input[type="checkbox"] {
+            flex: 0 0 auto;
+            width: 17px;
+            height: 17px;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background: #ff5252;
+            padding: 8px 10px;
+        }
+
+        .delete-btn:hover {
+            background: #d93636;
+        }
+
+        #count {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+        }
+    </style>
 </head>
+
 <body>
-  <header class="navbar">
-    <a class="logo" href="#">Exam<span>Setu</span></a>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#exams">Exams</a>
-      <a href="#categories">Categories</a>
-      <a href="#about">About</a>
-    </nav>
-  </header>
+    <div class="container">
+        <h1>My To-Do List 📝</h1>
+        <p>Plan your day, one task at a time!</p>
 
-  <main>
-    <section class="hero" id="home">
-      <p class="eyebrow">YOUR CAREER STARTS HERE</p>
-      <h1>One Platform. <span>Every Opportunity.</span></h1>
-      <p class="hero-text">
-        Discover government exams across India, track deadlines
-        and find official application notifications in one place.
-      </p>
-
-      <div class="search-box">
-        <input id="searchInput" type="search"
-          placeholder="Search UPSC, SSC, Banking, Railways..."
-          aria-label="Search government exams">
-        <button id="searchBtn">Search</button>
-      </div>
-
-      <p class="note">Search exams by name, department, state or qualification.</p>
-    </section>
-
-    <section class="categories" id="categories">
-      <h2>Explore Exam Categories</h2>
-      <div class="category-grid">
-        <button class="category active" data-category="All">All Exams</button>
-        <button class="category" data-category="UPSC">UPSC</button>
-        <button class="category" data-category="SSC">SSC</button>
-        <button class="category" data-category="Banking">Banking</button>
-        <button class="category" data-category="Railways">Railways</button>
-        <button class="category" data-category="Defence">Defence</button>
-        <button class="category" data-category="State PSC">State PSC</button>
-        <button class="category" data-category="Teaching">Teaching</button>
-      </div>
-    </section>
-
-    <section class="exams-section" id="exams">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">STAY UPDATED</p>
-          <h2>Government Exam Updates</h2>
+        <div class="input-area">
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="Enter a task..."
+            >
+            <button onclick="addTask()">Add</button>
         </div>
-        <span id="resultCount"></span>
-      </div>
 
-      <div class="filters">
-        <select id="qualificationFilter" aria-label="Filter by qualification">
-          <option value="All">All Qualifications</option>
-          <option value="12th Pass">12th Pass</option>
-          <option value="Graduate">Graduate</option>
-          <option value="10th Pass">10th Pass</option>
-        </select>
+        <ul id="taskList"></ul>
 
-        <select id="stateFilter" aria-label="Filter by state">
-          <option value="All">All India / All States</option>
-          <option value="Karnataka">Karnataka</option>
-          <option value="Central">Central Government</option>
-          <option value="Tamil Nadu">Tamil Nadu</option>
-        </select>
+        <div id="count">0 tasks remaining</div>
+    </div>
 
-        <button id="resetBtn" class="reset-btn">Reset Filters</button>
-      </div>
+    <script>
+        const taskInput = document.getElementById("taskInput");
+        const taskList = document.getElementById("taskList");
+        const count = document.getElementById("count");
 
-      <div id="examList" class="exam-grid"></div>
-    </section>
+        function addTask() {
+            const task = taskInput.value.trim();
 
-    <section class="disclaimer" id="about">
-      <h2>Important Information</h2>
-      <p>
-        Always verify eligibility, dates, fees and vacancies through
-        the official recruiting authority before applying.
-      </p>
-      <p>
-        Demo records on this website are illustrative and are not
-        verified live vacancies or current recruitment announcements.
-      </p>
-    </section>
-  </main>
+            if (task === "") {
+                alert("Please enter a task!");
+                return;
+            }
 
-  <footer>
-    <a class="logo" href="#">Exam<span>Setu</span></a>
-    <p>Helping aspirants find the right opportunity.</p>
-    <p>© 2026 ExamSetu. An independent information portal.</p>
-  </footer>
+            const li = document.createElement("li");
 
-  <script src="script.js"></script>
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.setAttribute("aria-label", "Mark task complete");
+
+            const span = document.createElement("span");
+            span.textContent = task;
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.className = "delete-btn";
+
+            checkbox.addEventListener("change", function () {
+                li.classList.toggle("completed", checkbox.checked);
+                updateCount();
+            });
+
+            deleteBtn.addEventListener("click", function () {
+                li.remove();
+                updateCount();
+            });
+
+            li.append(checkbox, span, deleteBtn);
+            taskList.appendChild(li);
+
+            taskInput.value = "";
+            taskInput.focus();
+
+            updateCount();
+        }
+
+        function updateCount() {
+            const tasks = taskList.querySelectorAll("li");
+            const remaining = [...tasks].filter(
+                task => !task.querySelector("input").checked
+            ).length;
+
+            count.textContent = remaining + " tasks remaining";
+        }
+
+        taskInput.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                addTask();
+            }
+        });
+    </script>
 </body>
 </html>
