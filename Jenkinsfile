@@ -206,7 +206,7 @@ pipeline {
 
                     echo "Checking website page title..."
 
-                    if grep -qi "Wisdom of Indian Saints" /tmp/mevi-site.html; then
+                    if grep -qi "DevOps Dashboard" /tmp/mevi-site.html; then
                         echo "SUCCESS: Expected website title found."
                     else
                         echo "ERROR: Expected title was not found."
